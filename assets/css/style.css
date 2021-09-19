@@ -222,6 +222,10 @@ footer {
     flex: 1 100%;
   }
 
+  form input, form .select-dropdown {
+    width: 100%
+  }
+
   form .form-group button {
     width: 100%;
   }
@@ -230,4 +234,14 @@ footer {
     flex-basis: 100%;
   }
 
+  .btn {
+    top: 1px;
+  }
+  
+  .btn:hover {
+    top: 2px;
+  }
+  .btn:active {
+    top: 4;
+  }
 }

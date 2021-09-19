@@ -17,7 +17,15 @@ var createTaskE1 = function(taskDataObj) {
     listItemE1.appendChild(taskInfoE1);
     var taskActionsE1 = createTaskActions(taskIdCounter);
     listItemE1.appendChild(taskActionsE1);
-    tasksToDoE1.appendChild(listItemE1);
+    if (taskDataObj.status === "to do") {
+        tasksToDoE1.appendChild(listItemE1);
+    }
+    else if (taskDataObj.status === "in progress") {
+        tasksInProgressE1.appendChild(listItemE1);
+    }
+    else if (taskDataObj.status === "completed") {
+        tasksCompletedE1.appendChild(listItemE1);
+    }
     taskDataObj.id = taskIdCounter;
     tasks.push(taskDataObj);
     saveTasks();
@@ -156,37 +164,14 @@ var saveTasks = function () {
 }
 
 var loadTasks = function() {
-    tasks = localStorage.getItem("tasks");
+    savedTasks = localStorage.getItem("tasks");
     if (tasks === null) {
         tasks = []
         return false
     }
-    tasks = JSON.parse(tasks);
-    for (i = 0; i < tasks.length; i++) {
-        tasks[i].id = taskIdCounter
-        var listItemE1 = document.createElement("li");
-        listItemE1.className = "task-item";
-        listItemE1.setAttribute("data-task-id", tasks[i].id);
-        var taskInfoE1 = document.createElement("div");
-        taskInfoE1.className = "task-info";
-        taskInfoE1.innerHTML = "<h3 class='task-name'>" + tasks[i].name + "</h3><span class='task-type'>" + tasks[i].type + "</span>"; 
-        listItemE1.appendChild(taskInfoE1);
-        var taskActionsE1 = createTaskActions(tasks[i].id);
-        listItemE1.appendChild(taskActionsE1);
-        if (tasks[i].status === "to do") {
-            listItemE1.querySelector ("select[name='status-change']").selectedIndex = 0;
-            tasksToDoE1.appendChild (listItemE1);
-        }
-        else if (tasks[i].status === "in progress") {
-            listItemE1.querySelector ("select[name='status-change']").selectedIndex = 1;
-            tasksInProgressE1.appendChild (listItemE1);
-        }
-        else if (tasks[i].status === "completed") {
-            listItemE1.querySelector ("select[name='status-change']").selectedIndex = 2;
-            tasksCompletedE1.appendChild (listItemE1);
-        }
-    saveTasks();
-    taskIdCounter ++;
+    savedTasks = JSON.parse(savedTasks);
+    for (i = 0; i < savedTasks.length; i++) {
+        createTaskE1(savedTasks[i])
     }
 }
 
